@@ -1,5 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule,FormBuilder,Validators,FormGroup, ReactiveFormsModule, FormControl } from '@angular/forms';
+import { ApiserviceService } from '../../services/api/apiservice.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-createnote',
@@ -11,12 +14,15 @@ export class CreatenoteComponent {
  
  postForm!: FormGroup;
   submitted = false;
+  apiservice=inject(ApiserviceService)
+  snackbar = inject(MatSnackBar)
+  route= inject(Router)
   constructor(private fb: FormBuilder) {}
 
   ngOnInit(): void {
     this.postForm = new FormGroup({
-      title: new FormControl('',[Validators.required,Validators.minLength(3),Validators.pattern('^[a-zA-Z0-9]+$')]),
-      content: new FormControl('',[Validators.required,Validators.minLength(3),Validators.pattern('^[a-zA-Z0-9]+$')]),
+      title: new FormControl('',[Validators.required,Validators.minLength(3)]),
+      content: new FormControl('',[Validators.required,Validators.minLength(3)]),
       tags: new FormControl('',[Validators.required,Validators.minLength(3)])
     });
   }
@@ -29,12 +35,19 @@ export class CreatenoteComponent {
     const formattedPost = {
       title: raw.title.trim(),
       content: raw.content.trim(),
-      tags: raw.tags ? raw.tags.split(',').map((tag: string) => tag.trim()) : [],
+      tags: raw.tags.trim(),
+      // tags: raw.tags ? raw.tags.split(',').map((tag: string) => tag.trim()) : [],
       isArchived: false
     };
-
-    console.log('Submitted Post:', formattedPost);
-    // Optionally reset form
+    this.apiservice.addNote(formattedPost).subscribe({
+      next:(data) => {
+        this.snackbar.open('Note added successfully','Dismiss',{
+          duration:5000,
+         })
+         this.route.navigate([''])
+      },
+      error:(error) => {}
+    })
     this.postForm.reset();
     this.submitted = false
   }

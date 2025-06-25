@@ -19,7 +19,7 @@ errorMessage = ''
 isError = signal(false)
 
 constructor(private apiservice: ApiserviceService){
-  this.apiservice.getTodos().pipe(
+  this.apiservice.getNotes().pipe(
        catchError(err => {
         this.isError.set(true)
         alert(err.message)
