@@ -1,4 +1,12 @@
-<section class="home">
+@if(isError() == true){
+    <app-error message="errorMessage"></app-error>
+}
+@else {
+    @if(isLoading == true){
+        <app-loader></app-loader>
+    }
+    @else {
+        <section class="home">
   <section class="header">
       <div class="searchbox">
         <span>
@@ -34,3 +42,6 @@
     }
   </section>
 </section>
+    }
+}
+
