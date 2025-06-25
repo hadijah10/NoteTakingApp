@@ -1,5 +1,5 @@
 export const environment = {
       production:false,
-    sperbaseURL: process.env['SUPERBASE_URL'],
-    superbbaseKey: process.env['SUPERBASE_PASSWORD']
+    superbaseURL: process.env['SUPERBASE_URL'],
+    superbaseKey: process.env['SUPERBASE_PASSWORD']
 };
