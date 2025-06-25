@@ -1,8 +1,8 @@
-export interface INotes{
-    id:number,
-    title:string,
+export interface INotes{ 
     content: string,
-    tags:string,
+    created_at:string,
+    id:number,
     isArchived:boolean,
-    createdAt:string
+    tags:string,
+    title:string,
 }
