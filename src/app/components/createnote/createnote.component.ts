@@ -41,12 +41,19 @@ export class CreatenoteComponent {
     };
     this.apiservice.addNote(formattedPost).subscribe({
       next:(data) => {
-        this.snackbar.open('Note added successfully','Dismiss',{
-          duration:5000,
-         })
+        this.snackbar.open('Note added Successfully','Dismiss',{
+          duration:2000,
+           panelClass:['snackbar-success']
+         });
+        
          this.route.navigate([''])
       },
-      error:(error) => {}
+      error:(error) => {
+        this.snackbar.open('Note addition Unsuccessful','Dismiss',{
+          duration:2000,
+           panelClass:['snackbar-error']
+         })
+      }
     })
     this.postForm.reset();
     this.submitted = false
