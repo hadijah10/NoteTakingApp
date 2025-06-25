@@ -1,6 +1,24 @@
-<section>
-    <div>
-        <span></span>
-        <input type="text" (input)="handleSearch($event)" placeholder="search title">
+<section class="home">
+  <section class="header">
+      <div class="searchbox">
+        <span>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+            <path stroke-linecap="round" stroke-linejoin="round" class="icon" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+            </svg>
+        </span>
+        <input type="text" (keyup)="handleSearch($event)" placeholder="search title">
     </div>
+    <select name="tags" id="tag" >
+        <option value="none">Select</option>
+        <option value="travel">Travel</option>
+        <option value="learning">Learn</option>
+        <option value="meeting">Meeting</option>
+        <option value="shopping">Shopping</option>
+        <option value="books">Books</option>
+    </select>
+  </section>
+  <h2>Notes</h2>
+  <section class="notes">
+    
+  </section>
 </section>

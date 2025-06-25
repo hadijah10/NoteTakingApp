@@ -9,5 +9,16 @@
     @include flex(row);
     @media(max-width:768px){
         @include flex(column);
+        .nav{
+            width: 100%;
+        }
+    }
+    
+    .outlet{
+        flex: 1;
+        padding-top: 1rem;
+        @media(max-width:768px){
+            width:100%;
+        }
     }
 }

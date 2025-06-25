@@ -1,0 +1,61 @@
+@mixin flex($direction:row,$justify:start,$align:start,$gap:0rem){
+    display: flex;
+    flex-direction: $direction;
+    justify-content: $justify;
+    align-items: $align;
+    gap:$gap;
+}
+$travel-color:#1e1e1e;
+$learning-colro: #a64e29;
+$meeting-color: #166c7b;
+$shopping-color: #601212;
+$books-color: #6f6829;
+
+.home{
+    flex:1;
+    @include flex(column,$gap:3rem);
+    padding-inline: 2rem ;
+    h2{
+        font-size: 2rem;
+        font-weight: 500;
+    }
+}
+.header{
+    @include flex($justify: space-between);
+    width: 100%;
+    .searchbox{
+        width: max-content;
+        display: flex;
+        align-items: center;
+        padding:0.5rem;
+        border-radius: 1rem;
+        background-color: #f6f6f6;
+        gap:1rem;
+        svg{
+            width:20px;
+            height: 20px;
+        }
+        .icon{
+            color: rgba(0,0,0,0.25);
+        }
+        input{
+            font-size: 1rem;
+            
+            color: rgba(0,0,0,0.25);
+            border:none;
+            background: transparent;
+            outline: none;
+            flex: 1;
+            &:focus{
+                border: none;
+                outline: none;
+            }
+        }
+    }
+     @media(max-width:400px){
+        padding: 0.2rem;
+            flex-direction: column;
+            gap:0.5rem;
+        }
+   
+}
