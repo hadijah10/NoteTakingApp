@@ -19,6 +19,57 @@ $books-color: #6f6829;
         font-size: 2rem;
         font-weight: 500;
     }
+    .notes{
+        max-width: 60rem;
+        width:100%;
+        display: grid;
+        grid-template-columns: repeat(3,1fr);
+        grid-auto-rows: 15rem;
+        gap:1rem;
+
+        @media(max-width:660px){
+            grid-template-columns: repeat(2,1fr);
+        }
+        @media(max-width:400px){
+            grid-template-columns: 1fr;
+        }
+        
+    .card{
+        display:flex;
+        padding: 1rem;
+        flex-direction: column;
+        justify-content: space-between;
+        background-color: #997363;
+        border-radius: 0.5rem;
+
+        @media(max-width:200px){
+            width:190px;
+        }
+        .cardend{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            .edit{
+                background-color: black;
+                display: grid;
+                place-content: center;
+                width:2rem;
+                height: 2rem;
+                border-radius: 50%;
+                cursor:pointer;
+                svg{
+                    width:20px;
+                    height: 20px;
+                }
+                  .icon{
+                    color: white;
+                }
+            }
+            
+              
+        }
+    }
+    }
 }
 .header{
     @include flex($justify: space-between);

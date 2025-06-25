@@ -17,8 +17,11 @@
     .outlet{
         flex: 1;
         padding-top: 1rem;
+        margin-left: 10rem;
         @media(max-width:768px){
             width:100%;
+            margin-left: 0rem;
+            margin-top: 5rem;
         }
     }
 }

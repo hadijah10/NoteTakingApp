@@ -11,10 +11,15 @@ svg{
 }
 .navbar{
     width:10rem;
-    display: sticky;
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
     height: 100vh;
     padding-block: 1rem;
     border-right: 1px solid gray;
+    background-color: rgb(43, 42, 42);
+    z-index: 1;
     @include flex(column,space-between,center);
     .logo{
         @include flex(row,start,center,1rem);
@@ -116,9 +121,10 @@ svg{
     }
 
     @media(max-width:768px){
+        
         padding-inline: 1rem;
         @include flex(row,space-between,center);
-        height: auto;
+        height: max-content;
         width:100%;
     }
 
