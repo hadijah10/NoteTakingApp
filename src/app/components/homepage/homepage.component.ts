@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { INotes } from '../../../../public/interfaces/datainterface';
-import { ApiserviceService } from '../../api/apiservice.service';
+import { ApiserviceService } from '../../services/api/apiservice.service';
 import { EMPTY,catchError } from 'rxjs';
 import { LoaderComponent } from '../loader/loader.component';
 import { ErrorComponent } from '../error/error.component';

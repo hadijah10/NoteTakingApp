@@ -1,0 +1,44 @@
+<form [formGroup]="postForm" (ngSubmit)="submitPost()" class="post-form">
+    <h2>Create Post</h2>
+    <div>
+    <label for="title">Title</label>
+    <input
+      id="title"
+      formControlName="title"
+      placeholder="Enter post title"
+    />
+    @if(postForm.get('title')?.invalid && submitted || postForm.get('title')?.invalid && postForm.get('title')?.touched){
+        <div class="error">
+            Title is required with a minimum od 3 characters
+        </div>
+    }
+  </div>
+  <div>
+    <label for="content">Content</label>
+    <textarea
+      id="content"
+      formControlName="content"
+      rows="5"
+      placeholder="Enter post content"
+    ></textarea>
+     @if(postForm.get('content')?.invalid && submitted || postForm.get('content')?.invalid && postForm.get('content')?.touched){
+        <div class="error">
+            Content is required with a minimum of 3 characters
+        </div>
+    }
+  </div>
+  <div>
+    <label for="tags">Tags (comma separated)</label>
+    <input
+      id="tags"
+      formControlName="tags"
+      placeholder="e.g. angular, frontend"
+    />
+     @if(postForm.get('tags')?.invalid && submitted || postForm.get('tags')?.invalid && postForm.get('content')?.touched){
+        <div class="error">
+            Tag is required with a minimum of 3 characters
+        </div>
+    }
+  </div>
+  <button type="submit" [disabled]="!postForm.invalid">Submit Post</button>
+</form>

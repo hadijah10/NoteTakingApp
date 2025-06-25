@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { environment } from '../../environments/environment.development';
+import { environment } from '../../../environments/environment.development';
 import { Observable,catchError,from,map ,retry} from 'rxjs';
-import { INotes } from '../../../public/interfaces/datainterface';
+import { INotes } from '../../../../public/interfaces/datainterface';
 import { createClient } from '@supabase/supabase-js';
-import { Database } from '../../../public/interfaces/database.types';
-import { ErrorService } from '../services/error/error.service';
+import { Database } from '../../../../public/interfaces/database.types';
+import { ErrorService } from '../error/error.service';
 
 
 @Injectable({
