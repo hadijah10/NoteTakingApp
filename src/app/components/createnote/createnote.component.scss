@@ -1,0 +1,37 @@
+.post-form {
+  max-width: 600px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  input, textarea {
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    width: 100%;
+  }
+
+  label {
+    font-weight: bold;
+  }
+
+  button {
+    padding: 10px 20px;
+    background-color: #3a7fce;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+
+    &:disabled {
+      background-color: #aaa;
+    }
+  }
+
+  .error {
+    color: red;
+    font-size: 0.9rem;
+  }
+}

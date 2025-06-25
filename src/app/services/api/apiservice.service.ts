@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { environment } from '../../environments/environment.development';
-import { Observable,catchError,from,map ,retry} from 'rxjs';
-import { INotes } from '../../../public/interfaces/datainterface';
+import { environment } from '../../../environments/environment.development';
+import { Observable,catchError,from,map ,retry,defer} from 'rxjs';
+import { INotes } from '../../../../public/interfaces/datainterface';
 import { createClient } from '@supabase/supabase-js';
-import { Database } from '../../../public/interfaces/database.types';
-import { ErrorService } from '../services/error/error.service';
+import { Database } from '../../../../public/interfaces/database.types';
+import { ErrorService } from '../error/error.service';
 
 
 @Injectable({
@@ -17,7 +17,7 @@ export class ApiserviceService {
   )
   constructor(private errorservice: ErrorService) { }
   
-  getTodos():Observable<INotes[]>{
+  getNotes():Observable<INotes[]>{
     const promise =  this.supabase.from('Notes').select('*')
     return from(promise).pipe(
       map((response) => {
@@ -32,6 +32,17 @@ export class ApiserviceService {
        return  this.errorservice.handleError(error)
       })
     );
+  }
+  addNote(data:Pick<INotes, "title"| "content" |"tags" | "isArchived">):Observable<INotes>{
+      const promise = this.supabase.from('Notes').insert(data).select('*').single();
+      return from(promise)
+    .pipe(
+      map((result) => {
+        if (result.error) throw result.error;
+      return result.data as INotes;
+      }),
+      retry(2),
+    )
   }
 
 }

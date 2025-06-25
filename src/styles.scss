@@ -12,6 +12,7 @@
   --bg-color: #ffffff;
   --text-color: #000000;
   --icon-color: #ffffff;
+  --navbar-bg: #f6f6f6;
 }
 
 // Dark theme
@@ -19,6 +20,7 @@
   --bg-color: #1e1e1e;
   --text-color: #f5f5f5;
   --icon-color: #000000;
+  --navbar-bg: rgb(43, 42, 42);;
 }
 
 body {
@@ -26,4 +28,22 @@ body {
   color: var(--text-color);
   transition: background-color 0.3s, color 0.3s;
   font-family: "Quicksand", sans-serif;
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.snackbar-success,
+.snackbar-error{
+    --mat-snack-bar-button-color: white;
+}
+.mat-mdc-snack-bar-action {
+    background-color: rgba(white,0.2);
+}
+
+.snackbar-success{
+    --mdc-snackbar-container-color :#4caf50;
+}
+.snackbar-error{
+    --mdc-snackbar-container-color :rgb(218, 83, 83);
 }

@@ -18,7 +18,7 @@ svg{
     height: 100vh;
     padding-block: 1rem;
     border-right: 1px solid gray;
-    background-color: rgb(43, 42, 42);
+    background-color: var(--navbar-bg);
     z-index: 1;
     @include flex(column,space-between,center);
     .logo{
@@ -64,6 +64,7 @@ svg{
         cursor: pointer;
         padding: 5px 10px;
         border-radius: 5px;
+        text-decoration: none;
         &:hover{
             background-color: rgb(67, 65, 65);
         }
@@ -102,6 +103,7 @@ svg{
         @include flex(row,center,center,0.5rem);
         
       }
+    
     }
     
     .end{
