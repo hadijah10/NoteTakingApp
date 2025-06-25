@@ -10,7 +10,12 @@ export class ErrorService {
   constructor() { }
 
     handleError(error:HttpErrorResponse):Observable<any>{
-      let errormesssage =''
+      let errormesssage ='new'
+        if (error.error instanceof ErrorEvent) {
+    // Client-side or network error
+      errormesssage = `Client-side error: ${error.error.message}`;
+    } else {
+    // Server-side error
       switch (error.status){
         case 0:
           errormesssage = 'Network Error of CORS issues';
@@ -33,6 +38,7 @@ export class ErrorService {
         default:
           errormesssage = ('Unknown error');
       }
+    }
       return throwError(() => new Error(errormesssage))
     }
 
