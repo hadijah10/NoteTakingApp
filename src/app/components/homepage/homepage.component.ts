@@ -22,7 +22,8 @@ constructor(private apiservice: ApiserviceService){
   this.apiservice.getTodos().pipe(
        catchError(err => {
         this.isError.set(true)
-        this.errorMessage = err;
+        alert(err.message)
+        this.errorMessage = err.message;
         return EMPTY
       })
   ).subscribe({

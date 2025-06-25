@@ -1,5 +1,5 @@
 @if(isError() == true){
-    <app-error message="errorMessage"></app-error>
+    <app-error [message]="errorMessage"></app-error>
 }
 @else {
     @if(isLoading == true){

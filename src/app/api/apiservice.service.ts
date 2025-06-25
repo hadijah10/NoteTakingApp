@@ -21,6 +21,10 @@ export class ApiserviceService {
     const promise =  this.supabase.from('Notes').select('*')
     return from(promise).pipe(
       map((response) => {
+         if (response.error) {
+          // Throw error to be caught by catchError below
+          throw response.error;
+        }
         return response.data ?? [];
       }),
       retry(2),
