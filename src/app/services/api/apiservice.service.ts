@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment.development';
-import { Observable,catchError,from,map ,retry,defer} from 'rxjs';
+import { Observable,catchError,from,map ,retry,defer,throwError} from 'rxjs';
 import { INotes } from '../../../../public/interfaces/datainterface';
 import { createClient } from '@supabase/supabase-js';
 import { Database } from '../../../../public/interfaces/database.types';
@@ -33,6 +33,27 @@ export class ApiserviceService {
       })
     );
   }
+
+  getNoteById(id: number): Observable<INotes | null> {
+  const promise = this.supabase.from('Notes').select('*').eq('id', id).limit(1)
+    .single();
+
+  return from(promise).pipe(
+    map(response => {
+      if (response.error) {
+        throw response.error;
+      }
+      return response.data;
+    }),
+    catchError(err => {
+      // handle or rethrow error
+      return throwError(() => err);
+    })
+  );
+
+
+  }
+
   addNote(data:Pick<INotes, "title"| "content" |"tags" | "isArchived">):Observable<INotes>{
       const promise = this.supabase.from('Notes').insert(data).select('*').single();
       return from(promise)
@@ -43,6 +64,14 @@ export class ApiserviceService {
       }),
       retry(2),
     )
+  }
+
+  updateNote(id:number,data:Pick<INotes, "title"| "content" |"tags">):Observable<number>{
+    const promise = this.supabase.from('Notes').update(data).eq('id', id);
+    return from(promise).pipe(map((response) => {
+      if(response.status >=400 && response.status<=500) throw response.status
+      return response.status
+    }))
   }
 
 }

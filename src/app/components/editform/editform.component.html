@@ -1,0 +1,74 @@
+<section class="edit">
+  <a routerLink="/" class="navi">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+    </svg>
+    <p>Go Back</p>
+  </a>
+<section class="note">
+    <h2>{{note?.title}}</h2>
+    <div class="tag">
+        <div class="right">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4">
+        <path fill-rule="evenodd" d="M4.5 2A2.5 2.5 0 0 0 2 4.5v2.879a2.5 2.5 0 0 0 .732 1.767l4.5 4.5a2.5 2.5 0 0 0 3.536 0l2.878-2.878a2.5 2.5 0 0 0 0-3.536l-4.5-4.5A2.5 2.5 0 0 0 7.38 2H4.5ZM5 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd" />
+        </svg>
+        <p>Tags</p>
+        </div>
+        <p>{{note?.tags}}</p>
+    </div>
+    <div class="time">
+        <div class="right">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+        </svg>
+        <p>Last Edited</p>
+        </div>
+        <p>{{note?.created_at?.substring(0,10)}}</p>
+    </div>
+    <hr>
+    <p>{{note?.content}}</p>
+
+    <button (click)="handleEdit()">Edit</button>
+</section>
+@if(showEdit() == true){
+    <section class="modal-backdrop" >
+   <div class="modal">
+     <form [formGroup]="editNoteForm" (ngSubmit)="onSubmit()">
+    <h2>Edit Note</h2>
+    <div class="form-group">
+        <label for="title">Title</label>
+        <input id="title" formControlName="title" type="text" />
+        @if((editNoteForm.get('title')?.invalid && isSubmitted )|| editNoteForm.get('title')?.invalid && editNoteForm.get('title')?.touched){
+            <div class="error">
+                Title is required with a minimum of 3 characters.
+            </div>
+        }
+    </div>
+    <div class="form-group">
+        <label for="content">Content</label>
+        <textarea id="content" formControlName="content"></textarea>
+        @if((editNoteForm.get('content')?.invalid && isSubmitted )|| editNoteForm.get('content')?.invalid && editNoteForm.get('content')?.touched){
+            <div class="error">
+                Content is required with a minimum of 3 characters.
+            </div>
+        }
+    </div>
+    <div class="form-group">
+        <label for="tag">Tag</label>
+        <input id="tag" formControlName="tag" type="text" />
+        @if((editNoteForm.get('title')?.invalid && isSubmitted )|| editNoteForm.get('title')?.invalid && editNoteForm.get('title')?.touched){
+            <div class="error">
+                Tag is required with a minimum of 3 characters.
+            </div>
+        }
+    </div>
+       <div class="modal-actions">
+      <button type="button" class="cancel" (click)="closeModal()">Cancel</button>
+      <button type="submit" [disabled]="editNoteForm.invalid">Update Note</button>
+    </div>
+    </form>
+
+   </div>
+</section>
+}
+</section>

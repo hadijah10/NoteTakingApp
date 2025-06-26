@@ -51,12 +51,15 @@ $books-color: #6f6829;
             align-items: center;
             .edit{
                 background-color: black;
+                border: none;
+                outline: none;
                 display: grid;
                 place-content: center;
                 width:2rem;
                 height: 2rem;
                 border-radius: 50%;
                 cursor:pointer;
+                
                 svg{
                     width:20px;
                     height: 20px;
