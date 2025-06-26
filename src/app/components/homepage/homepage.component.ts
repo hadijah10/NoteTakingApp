@@ -1,7 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { INotes } from '../../../../public/interfaces/datainterface';
 import { ApiserviceService } from '../../services/api/apiservice.service';
-import { EMPTY,catchError } from 'rxjs';
+import { BehaviorSubject, EMPTY,catchError } from 'rxjs';
 import { LoaderComponent } from '../loader/loader.component';
 import { ErrorComponent } from '../error/error.component';
 import { RouterLink } from '@angular/router';
@@ -20,6 +20,7 @@ isLoading = true;
 errorMessage = ''
 isError = signal(false)
 affirmDelete = signal(false)
+id = signal(0)
 
 constructor(private apiservice: ApiserviceService){
   this.apiservice.getNotes().pipe(
@@ -45,8 +46,9 @@ handleSearch(event:Event){
  console.log(target.value)
 }
 
-handleDelete(){
+handleDelete(id:number){
   this.affirmDelete.set(true)
+  this.id.set(id)
 }
 showDeleteModal(show: boolean){
   this.affirmDelete.set(show)

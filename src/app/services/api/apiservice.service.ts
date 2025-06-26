@@ -67,7 +67,7 @@ export class ApiserviceService {
     )
   }
 
-  removeTodo(id:number): Observable<number>{
+  removeNote(id:number): Observable<number>{
     const promise = this.supabase.from('Notes').delete().eq('id',id);
     return from(promise).pipe(map((response) => {
       if(response.status >=400 && response.status<=500) throw response.status
