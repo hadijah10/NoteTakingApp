@@ -43,6 +43,8 @@ handleSearch(event:Event){
  console.log(target.value)
 }
 
-
+handleDelete(){
+  console.log('delete')
+}
 
 }

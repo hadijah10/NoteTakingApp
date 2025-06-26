@@ -45,11 +45,17 @@ $books-color: #6f6829;
         @media(max-width:200px){
             width:190px;
         }
+        .end{
+            width: inherit;
+            @include flex($direction:column,$gap:1rem);
+
         .cardend{
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            .edit{
+            align-items: center;  
+            width:100%; 
+        }
+         .edit,.delete{
                 background-color: black;
                 border: none;
                 outline: none;
@@ -68,10 +74,12 @@ $books-color: #6f6829;
                     color: white;
                 }
             }
-            
-              
+            .togdel{
+                @include flex($justify:space-between);
+                width:100%; 
+            }
         }
-    }
+        }
     }
 }
 .header{
