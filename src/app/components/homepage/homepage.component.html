@@ -57,8 +57,7 @@
   </section>
 </section>
 @if(affirmDelete() == true){
-    <app-deletemodal [id] ="id()" (showModal)="showDeleteModal($event)"></app-deletemodal>
+    <app-deletemodal [id] ="id()" (showModal)="showDeleteModal($event)" (deleted)="notifyDelete($event)"></app-deletemodal>
 }    
 }
 }
-

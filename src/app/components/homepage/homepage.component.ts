@@ -54,4 +54,10 @@ showDeleteModal(show: boolean){
   this.affirmDelete.set(show)
 }
 
+notifyDelete(completedelete:boolean){
+  if (completedelete == true){
+    this.notelist = this.notelist.filter(data => data.id!= this.id())
+  }
+}
+
 }
