@@ -74,7 +74,9 @@ onSubmit() {
   }
 
   closeModal(){
+    this.editNoteForm.reset()
     this.showEdit.set(false)
   }
+
 
 }

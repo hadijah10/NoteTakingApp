@@ -16,7 +16,7 @@
     <button (click)="handleEdit()">Edit</button>
 </section>
 @if(showEdit() == true){
-    <section class="modal-backdrop" (click)="closeModal()">
+    <section class="modal-backdrop" >
    <div class="modal">
      <form [formGroup]="editNoteForm" (ngSubmit)="onSubmit()">
     <h2>Edit Note</h2>
