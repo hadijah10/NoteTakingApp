@@ -1,9 +1,10 @@
-import { Component, OnInit ,signal} from '@angular/core';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { Component, OnInit ,signal,inject} from '@angular/core';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ApiserviceService } from '../../services/api/apiservice.service';
 import { catchError,EMPTY } from 'rxjs';
 import { INotes } from '../../../../public/interfaces/datainterface';
 import { FormControl, FormGroup,ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-editform',
@@ -20,6 +21,8 @@ export class EditformComponent implements OnInit{
   editNoteForm!: FormGroup;
   isSubmitted = false
   showEdit = signal(false)
+  snackbar = inject(MatSnackBar)
+  router = inject(Router)
 
   constructor(private route:ActivatedRoute,private apiservice: ApiserviceService){
     this.apiservice.getNotes().pipe(
@@ -53,13 +56,35 @@ export class EditformComponent implements OnInit{
 
 onSubmit() {
   this.isSubmitted = true
-  if (this.editNoteForm.valid) {
-  
-    const updatedNote = this.editNoteForm.value;
+
+    if(this.editNoteForm.invalid) return;
+
+    const input = this.editNoteForm.value;
+    const formattedPost = {
+      title: input.title,
+      content: input.content,
+      tags: input.tags
+    }
+    this.apiservice.updateNote(parseInt(this.productId),formattedPost).subscribe({
+      next: (data) => {
+        this.snackbar.open(`Update Successful ${data}`,'Dismiss',{
+          duration: 2000,
+          panelClass: ['snack-success']
+        });
+        this.router.navigate([''])
+      },
+      error:(error) => {
+         this.snackbar.open(`Update Unsuccessful ${error}`,'Dismiss',{
+          duration: 2000,
+          panelClass: ['snack-error']
+        });
+      }
+    })
+
+    // const updatedNote = this.editNoteForm.value;
     // Call your updateNote service method here
     this.editNoteForm.reset()
     this.isSubmitted = false
-  }
 }
 
   ngOnInit() {
@@ -71,6 +96,7 @@ onSubmit() {
 
   handleEdit(){
     this.showEdit.set(true)
+  
   }
 
   closeModal(){
