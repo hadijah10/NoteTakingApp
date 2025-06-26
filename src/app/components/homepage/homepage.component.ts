@@ -4,10 +4,11 @@ import { ApiserviceService } from '../../services/api/apiservice.service';
 import { EMPTY,catchError } from 'rxjs';
 import { LoaderComponent } from '../loader/loader.component';
 import { ErrorComponent } from '../error/error.component';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-homepage',
-  imports: [LoaderComponent,ErrorComponent],
+  imports: [LoaderComponent,ErrorComponent,RouterLink],
   templateUrl: './homepage.component.html',
   styleUrl: './homepage.component.scss'
 })
@@ -22,7 +23,6 @@ constructor(private apiservice: ApiserviceService){
   this.apiservice.getNotes().pipe(
        catchError(err => {
         this.isError.set(true)
-        alert(err.message)
         this.errorMessage = err.message;
         return EMPTY
       })
