@@ -5,6 +5,7 @@ import { INotes } from '../../../../public/interfaces/datainterface';
 import { createClient } from '@supabase/supabase-js';
 import { Database } from '../../../../public/interfaces/database.types';
 import { ErrorService } from '../error/error.service';
+import { T } from '@angular/cdk/keycodes';
 
 
 @Injectable({
@@ -64,6 +65,14 @@ export class ApiserviceService {
       }),
       retry(2),
     )
+  }
+
+  removeNote(id:number): Observable<number>{
+    const promise = this.supabase.from('Notes').delete().eq('id',id);
+    return from(promise).pipe(map((response) => {
+      if(response.status >=400 && response.status<=500) throw response.status
+      return response.status
+    }))
   }
 
   updateNote(id:number,data:Pick<INotes, "title"| "content" |"tags">):Observable<number>{

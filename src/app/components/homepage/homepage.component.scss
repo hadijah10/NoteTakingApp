@@ -23,10 +23,12 @@ $books-color: #6f6829;
         max-width: 60rem;
         width:100%;
         display: grid;
-        grid-template-columns: repeat(3,1fr);
+        grid-template-columns: repeat(4,1fr);
         grid-auto-rows: 15rem;
         gap:1rem;
-
+        @media (max-width:992px) {
+            grid-template-columns: repeat(3,1fr);
+        }
         @media(max-width:660px){
             grid-template-columns: repeat(2,1fr);
         }
@@ -41,15 +43,23 @@ $books-color: #6f6829;
         justify-content: space-between;
         background-color: #997363;
         border-radius: 0.5rem;
-
+        .title{
+            font-size: 1.2rem;
+        }
         @media(max-width:200px){
             width:190px;
         }
+        .end{
+            width: inherit;
+            @include flex($direction:column,$gap:1rem);
+
         .cardend{
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            .edit{
+            align-items: center;  
+            width:100%; 
+        }
+         .edit,.delete{
                 background-color: black;
                 border: none;
                 outline: none;
@@ -68,10 +78,21 @@ $books-color: #6f6829;
                     color: white;
                 }
             }
-            
-              
+            .togdel{
+                @include flex($justify:space-between);
+                width:100%; 
+                button{
+                    background-color: transparent;
+                    border: none;
+                        outline: none;
+                    &:focus{
+                        border: none;
+                        outline: none;
+                    }
+                }
+            }
         }
-    }
+        }
     }
 }
 .header{
