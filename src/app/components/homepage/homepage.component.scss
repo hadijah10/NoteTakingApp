@@ -77,6 +77,15 @@ $books-color: #6f6829;
             .togdel{
                 @include flex($justify:space-between);
                 width:100%; 
+                button{
+                    background-color: transparent;
+                    border: none;
+                        outline: none;
+                    &:focus{
+                        border: none;
+                        outline: none;
+                    }
+                }
             }
         }
         }

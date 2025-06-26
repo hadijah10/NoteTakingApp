@@ -5,10 +5,11 @@ import { EMPTY,catchError } from 'rxjs';
 import { LoaderComponent } from '../loader/loader.component';
 import { ErrorComponent } from '../error/error.component';
 import { RouterLink } from '@angular/router';
+import { DeletemodalComponent } from '../deletemodal/deletemodal.component';
 
 @Component({
   selector: 'app-homepage',
-  imports: [LoaderComponent,ErrorComponent,RouterLink],
+  imports: [LoaderComponent,ErrorComponent,RouterLink,DeletemodalComponent],
   templateUrl: './homepage.component.html',
   styleUrl: './homepage.component.scss'
 })
@@ -18,6 +19,7 @@ notelist!:INotes[]
 isLoading = true;
 errorMessage = ''
 isError = signal(false)
+affirmDelete = signal(false)
 
 constructor(private apiservice: ApiserviceService){
   this.apiservice.getNotes().pipe(
@@ -44,7 +46,10 @@ handleSearch(event:Event){
 }
 
 handleDelete(){
-  console.log('delete')
+  this.affirmDelete.set(true)
+}
+showDeleteModal(show: boolean){
+  this.affirmDelete.set(show)
 }
 
 }
