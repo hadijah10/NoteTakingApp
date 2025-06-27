@@ -9,6 +9,7 @@ import { DeletemodalComponent } from '../deletemodal/deletemodal.component';
 import { FormsModule } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
+
 @Component({
   selector: 'app-homepage',
   imports: [LoaderComponent,ErrorComponent,RouterLink,DeletemodalComponent,FormsModule],
@@ -28,6 +29,7 @@ isToggled = false;
 snackbar = inject(MatSnackBar)
 colors: string[] = ['#FE9B72', '#FEC971', '#FD9B73', '#B592FC', '#E4EF8F', '#00D1FA'];
 filteredNotes:INotes[] = []
+newFilteredNotes:INotes[] = []
 
 
 constructor(private apiservice: ApiserviceService){
@@ -42,7 +44,7 @@ constructor(private apiservice: ApiserviceService){
       this.isError.set(false)
       this.isLoading = false
       this.notelist = data
-      this.filteredNotes = this.notelist
+      this.filteredNotes = data.map(note => note? {...note,background:this.getRandomColor()}:note)
     },
     error:(error => {
       this.isLoading = false
@@ -53,7 +55,7 @@ constructor(private apiservice: ApiserviceService){
   this.searchTermObservable.pipe(debounceTime(1000)).subscribe(
     {
       next:(data) => {
-        this.filteredNotes = this.notelist.filter((note) => {
+        this.newFilteredNotes = this.filteredNotes.filter((note) => {
           if(note.title.toLowerCase().includes(data.toLowerCase()))
              return  note
           return
@@ -63,6 +65,8 @@ constructor(private apiservice: ApiserviceService){
       complete:() => {}
     }
   )
+
+
 }
 
 handleSearch(event:Event){
@@ -87,7 +91,9 @@ notifyDelete(completedelete:boolean){
 }
 
 handleToggle(event:Event, note:INotes){
+  
   const updatedNote = {...note, isArchived: !note.isArchived}
+  delete updatedNote.background
   const checkbox = event.target as HTMLInputElement;
   
   // Revert checkbox immediately (until success)
@@ -121,6 +127,11 @@ handleToggle(event:Event, note:INotes){
 
 getRandomColor():string{
   return this.colors[Math.floor(Math.random() * this.colors.length)]
+}
+
+getTags(){
+  const tags = this.notelist.map(note =>  note.tags)
+  console.log(tags)
 }
 
 }
