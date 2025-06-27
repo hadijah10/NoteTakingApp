@@ -25,7 +25,7 @@ affirmDelete = signal(false)
 id = signal(0)
 isToggled = false;
 snackbar = inject(MatSnackBar)
-
+ colors: string[] = ['#FE9B72', '#FEC971', '#FD9B73', '#B592FC', '#E4EF8F', '#00D1FA'];
 
 constructor(private apiservice: ApiserviceService){
   this.apiservice.getNotes().pipe(
@@ -96,6 +96,10 @@ handleToggle(event:Event, note:INotes){
         
     }
   })
+}
+
+getRandomColor():string{
+  return this.colors[Math.floor(Math.random() * this.colors.length)]
 }
 
 }
