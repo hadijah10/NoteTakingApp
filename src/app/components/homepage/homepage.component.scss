@@ -118,7 +118,7 @@ $books-color: #6f6829;
     }
 
     input:checked + .slider {
-        background-color: #193d64;
+        background-color: lighten(#193d64,50%);
     }
 
     input:checked + .slider::before {
@@ -127,18 +127,18 @@ $books-color: #6f6829;
     }
 
 
-                button{
-                    background-color: transparent;
-                    border: none;
-                        outline: none;
-                    &:focus{
-                        border: none;
-                        outline: none;
-                    }
-                }
-            }
+    button{
+        background-color: transparent;
+        border: none;
+            outline: none;
+        &:focus{
+            border: none;
+            outline: none;
         }
-        }
+    }
+    }
+    }
+    }
     }
 }
 .header{
