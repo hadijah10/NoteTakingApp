@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal,inject } from '@angular/core';
 import { INotes } from '../../../../public/interfaces/datainterface';
 import { ApiserviceService } from '../../services/api/apiservice.service';
 import { BehaviorSubject, EMPTY,catchError } from 'rxjs';
@@ -6,10 +6,12 @@ import { LoaderComponent } from '../loader/loader.component';
 import { ErrorComponent } from '../error/error.component';
 import { RouterLink } from '@angular/router';
 import { DeletemodalComponent } from '../deletemodal/deletemodal.component';
+import { FormsModule } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-homepage',
-  imports: [LoaderComponent,ErrorComponent,RouterLink,DeletemodalComponent],
+  imports: [LoaderComponent,ErrorComponent,RouterLink,DeletemodalComponent,FormsModule],
   templateUrl: './homepage.component.html',
   styleUrl: './homepage.component.scss'
 })
@@ -21,6 +23,9 @@ errorMessage = ''
 isError = signal(false)
 affirmDelete = signal(false)
 id = signal(0)
+isToggled = false;
+snackbar = inject(MatSnackBar)
+
 
 constructor(private apiservice: ApiserviceService){
   this.apiservice.getNotes().pipe(
@@ -37,7 +42,7 @@ constructor(private apiservice: ApiserviceService){
     },
     error:(error => {
       this.isLoading = false
-      // this.errorMessage = error
+
     })
   })
 }
@@ -58,6 +63,39 @@ notifyDelete(completedelete:boolean){
   if (completedelete == true){
     this.notelist = this.notelist.filter(data => data.id!= this.id())
   }
+}
+
+handleToggle(event:Event, note:INotes){
+  const updatedNote = {...note, isArchived: !note.isArchived}
+  const checkbox = event.target as HTMLInputElement;
+  
+  // Revert checkbox immediately (until success)
+  checkbox.checked = note.isArchived;
+  
+  this.apiservice.updateNote(note.id,updatedNote).subscribe({
+    next:(data)=> {
+      note.isArchived = updatedNote.isArchived;
+        this.snackbar.open('Archive State Updated','Close',{
+          duration:2000,
+           panelClass:['snackbar-success']
+         });
+    },
+    error:(error) => {
+         if(error == 0){
+          this.snackbar.open('Archive Failed. Check your network','Dismiss',{
+          duration:2000,
+           panelClass:['snackbar-error']
+         });
+         }
+         else{
+          this.snackbar.open('Archive Update Failed','Dismiss',{
+          duration:2000,
+           panelClass:['snackbar-error']
+         });
+         }
+        
+    }
+  })
 }
 
 }
