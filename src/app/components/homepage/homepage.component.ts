@@ -1,7 +1,7 @@
 import { Component, signal,inject } from '@angular/core';
 import { INotes } from '../../../../public/interfaces/datainterface';
 import { ApiserviceService } from '../../services/api/apiservice.service';
-import { BehaviorSubject, EMPTY,catchError } from 'rxjs';
+import { BehaviorSubject, EMPTY,catchError, debounceTime } from 'rxjs';
 import { LoaderComponent } from '../loader/loader.component';
 import { ErrorComponent } from '../error/error.component';
 import { RouterLink } from '@angular/router';
@@ -16,7 +16,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrl: './homepage.component.scss'
 })
 export class HomepageComponent {
-searchTerm:string = ''
+searchTermObservable = new BehaviorSubject('')
+searchTerm = signal<string>('')
 notelist!:INotes[]
 isLoading = true;
 errorMessage = ''
@@ -25,7 +26,9 @@ affirmDelete = signal(false)
 id = signal(0)
 isToggled = false;
 snackbar = inject(MatSnackBar)
- colors: string[] = ['#FE9B72', '#FEC971', '#FD9B73', '#B592FC', '#E4EF8F', '#00D1FA'];
+colors: string[] = ['#FE9B72', '#FEC971', '#FD9B73', '#B592FC', '#E4EF8F', '#00D1FA'];
+filteredNotes:INotes[] = []
+
 
 constructor(private apiservice: ApiserviceService){
   this.apiservice.getNotes().pipe(
@@ -39,16 +42,34 @@ constructor(private apiservice: ApiserviceService){
       this.isError.set(false)
       this.isLoading = false
       this.notelist = data
+      this.filteredNotes = this.notelist
     },
     error:(error => {
       this.isLoading = false
-
+      this.isError.set(true)
     })
   })
+
+  this.searchTermObservable.pipe(debounceTime(1000)).subscribe(
+    {
+      next:(data) => {
+        this.filteredNotes = this.notelist.filter((note) => {
+          if(note.title.toLowerCase().includes(data.toLowerCase()))
+             return  note
+          return
+          })
+      },
+      error:() => {},
+      complete:() => {}
+    }
+  )
 }
+
 handleSearch(event:Event){
   const target = event.target as HTMLInputElement
  console.log(target.value)
+ this.searchTermObservable.next(target.value)
+
 }
 
 handleDelete(id:number){
@@ -61,7 +82,7 @@ showDeleteModal(show: boolean){
 
 notifyDelete(completedelete:boolean){
   if (completedelete == true){
-    this.notelist = this.notelist.filter(data => data.id!= this.id())
+    this.filteredNotes = this.filteredNotes.filter(data => data.id!= this.id())
   }
 }
 
