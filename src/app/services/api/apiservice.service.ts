@@ -75,10 +75,10 @@ export class ApiserviceService {
     }))
   }
 
-  updateNote(id:number,data:Pick<INotes, "title"| "content" |"tags">):Observable<number>{
+  updateNote(id:number,data:Pick<INotes, "title"| "content" |"tags"> | INotes):Observable<number>{
     const promise = this.supabase.from('Notes').update(data).eq('id', id);
     return from(promise).pipe(map((response) => {
-      if(response.status >=400 && response.status<=500) throw response.status
+      if((response.status >=400 && response.status<=500) || response.status == 0) throw response.status
       return response.status
     }))
   }
