@@ -27,7 +27,7 @@
   </section>
   <h2>Notes</h2>
   <section class="notes">
-    @for(note of notelist;track $index){
+    @for(note of filteredNotes;track $index){
       <div class="card" [style.background-color]="getRandomColor()">
           <p class="title">{{note.title}}</p>
        <section class="end">
