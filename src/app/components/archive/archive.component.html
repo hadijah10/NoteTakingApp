@@ -1,0 +1,20 @@
+<section class="archivesection">
+    @for(archivedNote of archivedNotes; track $index){
+         <div class="card" [style.background-color]="getRandomColor()">
+          <div class="top">
+            <p class="title">{{archivedNote.title}}</p>
+            <p class="content">
+                {{ archivedNote.content }}
+            </p>
+          </div>
+       <section class="end">
+             <div class="cardend">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                </svg>
+                <p>{{archivedNote.created_at.substring(0,10)}}</p>
+            </div>
+       </section>
+      </div>
+    }
+</section>
