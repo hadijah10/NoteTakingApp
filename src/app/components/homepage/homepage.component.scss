@@ -42,6 +42,7 @@ $books-color: #6f6829;
         flex-direction: column;
         justify-content: space-between;
         border-radius: 1rem;
+        color: black;
         .title{
             font-size: 1.2rem;
         }
@@ -118,7 +119,7 @@ $books-color: #6f6829;
     }
 
     input:checked + .slider {
-        background-color: lighten(#193d64,50%);
+        background-color: lighten(#193d64,30%);
     }
 
     input:checked + .slider::before {
