@@ -19,7 +19,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class HomepageComponent {
 searchTermObservable = new BehaviorSubject('')
 searchTerm = signal<string>('')
-notelist!:INotes[]
+notelist:INotes[] = []
 isLoading = true;
 errorMessage = ''
 isError = signal(false)
@@ -30,6 +30,8 @@ snackbar = inject(MatSnackBar)
 colors: string[] = ['#FE9B72', '#FEC971', '#FD9B73', '#B592FC', '#E4EF8F', '#00D1FA'];
 filteredNotes:INotes[] = []
 newFilteredNotes:INotes[] = []
+selectedTag = signal<string>('')
+searchTermSig = signal<string>('')
 
 
 constructor(private apiservice: ApiserviceService){
@@ -45,6 +47,8 @@ constructor(private apiservice: ApiserviceService){
       this.isLoading = false
       this.notelist = data
       this.filteredNotes = data.map(note => note? {...note,background:this.getRandomColor()}:note)
+      this.getTags()
+      this.applyFilters()
     },
     error:(error => {
       this.isLoading = false
@@ -60,21 +64,37 @@ constructor(private apiservice: ApiserviceService){
              return  note
           return
           })
+
       },
       error:() => {},
       complete:() => {}
     }
   )
-
-
 }
 
 handleSearch(event:Event){
   const target = event.target as HTMLInputElement
- console.log(target.value)
+
  this.searchTermObservable.next(target.value)
 
+    //  this.newFilteredNotes = this.newFilteredNotes.filter(note => note.tags.toLowerCase().includes(this.selectedTag().toLowerCase()))
+
+    }
+
+
+applyFilters() {
+  this.newFilteredNotes = this.filteredNotes.filter(note => {
+    // Tag filter
+    const matchesTag = !this.selectedTag() || note.tags.toLowerCase().includes(this.selectedTag().toLowerCase());
+    // Search filter
+    const matchesSearch =
+      !this.searchTerm ||
+      note.title.toLowerCase().includes(this.searchTerm().toLowerCase()) 
+      // ||   note.content.toLowerCase().includes(this.searchTerm().toLowerCase());
+    return matchesTag && matchesSearch;
+  });
 }
+
 
 handleDelete(id:number){
   this.affirmDelete.set(true)
@@ -129,9 +149,24 @@ getRandomColor():string{
   return this.colors[Math.floor(Math.random() * this.colors.length)]
 }
 
-getTags(){
-  const tags = this.notelist.map(note =>  note.tags)
-  console.log(tags)
+getTags():string[]{
+ 
+const taglist = Array.from(new Set(
+  this.notelist
+    .flatMap(note => note.tags.split(','))
+    .map(tag => tag.trim().toLowerCase())
+));
+  return taglist
+}
+
+handleFilter(tag:string=''){
+  this.selectedTag.set(tag)
+  this.applyFilters()
+}
+
+clearFilters(){
+  this.selectedTag.set('');
+  this.applyFilters()
 }
 
 }

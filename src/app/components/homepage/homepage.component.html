@@ -14,20 +14,19 @@
             <path stroke-linecap="round" stroke-linejoin="round" class="" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
             </svg>
         </span>
-        <input type="text" (keyup)="handleSearch($event)" placeholder="search title">
+        <input type="text"  (keyup)="handleSearch($event)" placeholder="search title">
     </div>
-    <select name="tags" id="tag" >
-        <option value="none">Select</option>
-        <option value="travel">Travel</option>
-        <option value="learning">Learn</option>
-        <option value="meeting">Meeting</option>
-        <option value="shopping">Shopping</option>
-        <option value="books">Books</option>
-    </select>
+    <section class="tag-container">
+    @for(tag of getTags();track $index){
+        <button class="tag-button" (click) = "handleFilter(tag)">{{tag}}</button>
+    }
+    <button class="tag-button" (click)="handleFilter()">Clear</button>
   </section>
+  </section>
+  
   <h2>Notes</h2>
   <section class="notes">
-    @for(note of filteredNotes;track $index){
+    @for(note of newFilteredNotes;track $index){
       <div class="card" [style.background-color]="note.background">
           <p class="title">{{note.title}}</p>
        <section class="end">

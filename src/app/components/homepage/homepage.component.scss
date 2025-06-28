@@ -141,9 +141,44 @@ $books-color: #6f6829;
     }
     }
     }
+
+    .tag-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.tag-button {
+  background-color: #d2ddea;
+  color: #333;
+  border: none;
+  border-radius: 20px;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+
+  &:hover {
+    background-color: #c2c2c2;
+    transform: scale(1.05);
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px #1976d2;
+  }
+}
+
+@media (max-width: 600px) {
+  .tag-button {
+    font-size: 0.8rem;
+    padding: 0.4rem 0.8rem;
+  }
+}
+
 }
 .header{
-    @include flex($justify: space-between);
+    @include flex($direction:column,$justify: space-between,$gap:1.5rem);
     width: 100%;
     .searchbox{
         width: max-content;
@@ -180,4 +215,5 @@ $books-color: #6f6829;
             gap:0.5rem;
         }
    
+        
 }
