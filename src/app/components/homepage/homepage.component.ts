@@ -90,7 +90,7 @@ applyFilters() {
     const matchesSearch =
       !this.searchTerm ||
       note.title.toLowerCase().includes(this.searchTerm().toLowerCase()) 
-      // ||   note.content.toLowerCase().includes(this.searchTerm().toLowerCase());
+      ||   note.content.toLowerCase().includes(this.searchTerm().toLowerCase());
     return matchesTag && matchesSearch;
   });
 }
