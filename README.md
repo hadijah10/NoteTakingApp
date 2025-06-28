@@ -14,9 +14,11 @@ A responsive, feature-rich Angular note-taking application that allows users to 
 
 - ✅ Create, edit, and delete notes
 - ✅ Archive and unarchive notes with toggle
+- ✅ Fill in form inputs with validation
 - ✅ Filter notes by tag
 - ✅ View Archived Notes
 - ✅ Search notes by title or content
+- ✅ Fetching and storing of data in supabase database.
 - ✅ Responsive design (mobile & desktop)
 - ✅ Snackbar notifications for actions.From Angular material.
 - ✅ Custom toggle switch and modal components
