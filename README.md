@@ -1,59 +1,79 @@
-# NoteTakingWebApp
+# 📝 NoteTakingApp
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.14.
+A responsive, feature-rich Angular note-taking application that allows users to create, edit, delete, archive, and search notes. Built with Angular 17+, RxJS, SCSS, and supabse database.
 
-## Development server
+![App Screenshot](https://note-taking-app-eight-eta.vercel.app/assets/screenshot.png)
 
-To start a local development server, run:
+## 🚀 Live Demo
+
+🔗 [Visit Live App](https://note-taking-app-eight-eta.vercel.app/notes)
+
+---
+
+## 📦 Features
+
+- ✅ Create, edit, and delete notes
+- ✅ Archive and unarchive notes with toggle
+- ✅ Fill in form inputs with validation
+- ✅ Filter notes by tag
+- ✅ View Archived Notes
+- ✅ Search notes by title or content
+- ✅ Fetching and storing of data in supabase database.
+- ✅ Responsive design (mobile & desktop)
+- ✅ Snackbar notifications for actions.From Angular material.
+- ✅ Custom toggle switch and modal components
+- ✅ Random background color for note cards
+- ✅ Optimized list rendering with `@for` directive
+- ✅ Built with Angular standalone components
+
+---
+
+## 🧰 Tech Stack
+
+| Technology       | Description                           |
+|------------------|----------------------------------------|
+| Angular 17       | Core framework                        |
+| TypeScript       | Language                              |
+| RxJS             | Reactive programming                  |
+| SCSS             | Styling (modular and responsive)      |
+| Supabase         | Data in backend for note operations    |
+| Vercel           | Deployment                            |
+
+---
+
+## 🛠️ Installation
 
 ```bash
+# Clone the repository
+git clone https://github.com/hadijah10/NoteTakingApp.git
+cd NoteTakingApp
+
+# Install dependencies
+npm install
+
+# Run the app locally
 ng serve
-```
+Open your browser at: http://localhost:4200
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+src/
+│
+├── app/
+│   ├── components/      # Reusable components (toggle, modal, etc.)
+│   ├── services/        # API & error handling services
+│   ├── models/          # Interfaces for Note and Tag
+│   ├── pages/           # Notes listing, archive view, and edit form
+│   └── app.config.ts    # Angular standalone app configuration
+│
+├── assets/              # Icons, images, and styles
+└── styles.scss          # Global styles
 
-## Code scaffolding
+💡 Future Improvements
+Add user authentication
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+Add drag-and-drop for note reordering
 
-```bash
-ng generate component component-name
-```
+Enable rich text editing
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## 🤝 Contributing
 
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Pull requests are welcome! For major changes, please open an issue first to discuss what you'd like to change.
