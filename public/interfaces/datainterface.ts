@@ -5,4 +5,5 @@ export interface INotes{
     isArchived:boolean,
     tags:string,
     title:string,
+     background?:string
 }

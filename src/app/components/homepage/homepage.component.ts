@@ -9,6 +9,7 @@ import { DeletemodalComponent } from '../deletemodal/deletemodal.component';
 import { FormsModule } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
+
 @Component({
   selector: 'app-homepage',
   imports: [LoaderComponent,ErrorComponent,RouterLink,DeletemodalComponent,FormsModule],
@@ -18,7 +19,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class HomepageComponent {
 searchTermObservable = new BehaviorSubject('')
 searchTerm = signal<string>('')
-notelist!:INotes[]
+notelist:INotes[] = []
 isLoading = true;
 errorMessage = ''
 isError = signal(false)
@@ -28,6 +29,9 @@ isToggled = false;
 snackbar = inject(MatSnackBar)
 colors: string[] = ['#FE9B72', '#FEC971', '#FD9B73', '#B592FC', '#E4EF8F', '#00D1FA'];
 filteredNotes:INotes[] = []
+newFilteredNotes:INotes[] = []
+selectedTag = signal<string>('')
+searchTermSig = signal<string>('')
 
 
 constructor(private apiservice: ApiserviceService){
@@ -42,7 +46,9 @@ constructor(private apiservice: ApiserviceService){
       this.isError.set(false)
       this.isLoading = false
       this.notelist = data
-      this.filteredNotes = this.notelist
+      this.filteredNotes = data.map(note => note? {...note,background:this.getRandomColor()}:note)
+      this.getTags()
+      this.applyFilters()
     },
     error:(error => {
       this.isLoading = false
@@ -53,11 +59,12 @@ constructor(private apiservice: ApiserviceService){
   this.searchTermObservable.pipe(debounceTime(1000)).subscribe(
     {
       next:(data) => {
-        this.filteredNotes = this.notelist.filter((note) => {
+        this.newFilteredNotes = this.filteredNotes.filter((note) => {
           if(note.title.toLowerCase().includes(data.toLowerCase()))
              return  note
           return
           })
+
       },
       error:() => {},
       complete:() => {}
@@ -67,10 +74,27 @@ constructor(private apiservice: ApiserviceService){
 
 handleSearch(event:Event){
   const target = event.target as HTMLInputElement
- console.log(target.value)
+
  this.searchTermObservable.next(target.value)
 
+    //  this.newFilteredNotes = this.newFilteredNotes.filter(note => note.tags.toLowerCase().includes(this.selectedTag().toLowerCase()))
+
+    }
+
+
+applyFilters() {
+  this.newFilteredNotes = this.filteredNotes.filter(note => {
+    // Tag filter
+    const matchesTag = !this.selectedTag() || note.tags.toLowerCase().includes(this.selectedTag().toLowerCase());
+    // Search filter
+    const matchesSearch =
+      !this.searchTerm ||
+      note.title.toLowerCase().includes(this.searchTerm().toLowerCase()) 
+      // ||   note.content.toLowerCase().includes(this.searchTerm().toLowerCase());
+    return matchesTag && matchesSearch;
+  });
 }
+
 
 handleDelete(id:number){
   this.affirmDelete.set(true)
@@ -87,7 +111,9 @@ notifyDelete(completedelete:boolean){
 }
 
 handleToggle(event:Event, note:INotes){
+  
   const updatedNote = {...note, isArchived: !note.isArchived}
+  delete updatedNote.background
   const checkbox = event.target as HTMLInputElement;
   
   // Revert checkbox immediately (until success)
@@ -121,6 +147,26 @@ handleToggle(event:Event, note:INotes){
 
 getRandomColor():string{
   return this.colors[Math.floor(Math.random() * this.colors.length)]
+}
+
+getTags():string[]{
+ 
+const taglist = Array.from(new Set(
+  this.notelist
+    .flatMap(note => note.tags.split(','))
+    .map(tag => tag.trim().toLowerCase())
+));
+  return taglist
+}
+
+handleFilter(tag:string=''){
+  this.selectedTag.set(tag)
+  this.applyFilters()
+}
+
+clearFilters(){
+  this.selectedTag.set('');
+  this.applyFilters()
 }
 
 }
