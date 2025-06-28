@@ -215,5 +215,39 @@ $books-color: #6f6829;
             gap:0.5rem;
         }
    
+        .fil{
+            width:inherit;
+            @include flex(row,$justify:space-between,$align:center);
+            @media (max-width:400px) {
+                flex-direction: column;
+                gap:0.5rem;
+            }
+            .custom-select {
+  appearance: none; // Remove default styling
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  background-color: #f4f4f4;
+  color: #333;
+  padding: 0.6rem 1rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  cursor: pointer;
+  width: 100%;
+  max-width: 250px;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 10 6' fill='none' stroke='%23666' stroke-width='1.5'%3E%3Cpath d='M1 1l4 4 4-4'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 1rem;
+}
+
+.custom-select:focus {
+  border-color: #1976d2;
+  box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.2);
+}
+
+        }
         
 }

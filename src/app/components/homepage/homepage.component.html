@@ -8,6 +8,7 @@
     @else {
         <section class="home">
   <section class="header">
+    <div class="fil">     
       <div class="searchbox">
         <span>
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
@@ -16,14 +17,18 @@
         </span>
         <input type="text"  (keyup)="handleSearch($event)" placeholder="search title">
     </div>
-    <section class="tag-container">
+  <select [(ngModel)]="selectedFont" (change)="applyFont()" class="custom-select">
+    <option value="serif">Serif</option>
+   <option value="sans-serif">Sans serif</option>
+   <option value="monospace">Monospace</option>
+  </select></div>
+     <section class="tag-container">
     @for(tag of getTags();track $index){
         <button class="tag-button" (click) = "handleFilter(tag)">{{tag}}</button>
     }
     <button class="tag-button" (click)="handleFilter()">Clear</button>
   </section>
-  </section>
-  
+  </section>  
   <h2>Notes</h2>
   @if(newFilteredNotes.length<=0){
     <section>

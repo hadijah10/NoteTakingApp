@@ -32,6 +32,7 @@ filteredNotes:INotes[] = []
 newFilteredNotes:INotes[] = []
 selectedTag = signal<string>('')
 searchCount=signal(0)
+selectedFont:string='sans-serif'
 
 
 constructor(private apiservice: ApiserviceService){
@@ -80,6 +81,12 @@ constructor(private apiservice: ApiserviceService){
       complete:() => {}
     }
   )
+
+    let savedfont = localStorage.getItem('font-type')
+    if(savedfont){
+      this.selectedFont = savedfont
+      this.applyFont()
+    }
 }
 
 handleSearch(event:Event){
@@ -171,6 +178,9 @@ handleFilter(tag:string=''){
   this.applyFilters()
 }
 
-
+applyFont(){
+  document.body.style.setProperty('--font-family', this.selectedFont)
+  localStorage.setItem('font-type',this.selectedFont);
+}
 
 }

@@ -13,6 +13,7 @@
   --text-color: #000000;
   --icon-color: #ffffff;
   --navbar-bg: #f6f6f6;
+  --font-family: sans-serif;
 }
 
 // Dark theme
@@ -27,11 +28,12 @@ body {
   background-color: var(--bg-color);
   color: var(--text-color);
   transition: background-color 0.3s, color 0.3s;
-  font-family: "Quicksand", sans-serif;
+  font-family:  var(--font-family);
+  margin: 0;
 }
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
 
 .snackbar-success,
 .snackbar-error{
