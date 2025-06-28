@@ -1,7 +1,7 @@
 import { Component, signal,inject } from '@angular/core';
 import { INotes } from '../../../../public/interfaces/datainterface';
 import { ApiserviceService } from '../../services/api/apiservice.service';
-import { BehaviorSubject, EMPTY,catchError, debounceTime } from 'rxjs';
+import { BehaviorSubject, EMPTY,catchError, debounceTime, distinctUntilChanged } from 'rxjs';
 import { LoaderComponent } from '../loader/loader.component';
 import { ErrorComponent } from '../error/error.component';
 import { RouterLink } from '@angular/router';
@@ -31,7 +31,8 @@ colors: string[] = ['#FE9B72', '#FEC971', '#FD9B73', '#B592FC', '#E4EF8F', '#00D
 filteredNotes:INotes[] = []
 newFilteredNotes:INotes[] = []
 selectedTag = signal<string>('')
-searchTermSig = signal<string>('')
+searchCount=signal(0)
+selectedFont:string='sans-serif'
 
 
 constructor(private apiservice: ApiserviceService){
@@ -56,20 +57,36 @@ constructor(private apiservice: ApiserviceService){
     })
   })
 
-  this.searchTermObservable.pipe(debounceTime(1000)).subscribe(
+  this.searchTermObservable.pipe(debounceTime(1000),distinctUntilChanged()).subscribe(
     {
       next:(data) => {
-        this.newFilteredNotes = this.filteredNotes.filter((note) => {
-          if(note.title.toLowerCase().includes(data.toLowerCase()))
+       this.searchTerm.set(data)
+        if(this.selectedTag() == ''){
+           this.newFilteredNotes = this.filteredNotes.filter((note) => {
+          if(note.title.toLowerCase().includes(data.toLowerCase()) && note.tags.toLowerCase().includes(this.selectedTag()))
              return  note
           return
           })
-
+        }
+        else{
+          this.newFilteredNotes = this.filteredNotes.filter((note) => {
+          if(note.title.toLowerCase().includes(data.toLowerCase()) && note.tags.toLowerCase().includes(this.selectedTag()))
+             return  note
+          return
+          })
+        }
+       
       },
       error:() => {},
       complete:() => {}
     }
   )
+
+    let savedfont = localStorage.getItem('font-type')
+    if(savedfont){
+      this.selectedFont = savedfont
+      this.applyFont()
+    }
 }
 
 handleSearch(event:Event){
@@ -83,16 +100,13 @@ handleSearch(event:Event){
 
 
 applyFilters() {
-  this.newFilteredNotes = this.filteredNotes.filter(note => {
-    // Tag filter
-    const matchesTag = !this.selectedTag() || note.tags.toLowerCase().includes(this.selectedTag().toLowerCase());
-    // Search filter
-    const matchesSearch =
-      !this.searchTerm ||
-      note.title.toLowerCase().includes(this.searchTerm().toLowerCase()) 
-      ||   note.content.toLowerCase().includes(this.searchTerm().toLowerCase());
-    return matchesTag && matchesSearch;
-  });
+  this.newFilteredNotes = this.searchTerm()==''? this.filteredNotes.filter(note => note.tags.toLowerCase().includes(this.selectedTag())) :
+  this.filteredNotes.filter(note => {
+    if(note.title.toLowerCase().includes(this.searchTerm()) && note.tags.toLowerCase().includes(this.selectedTag()))
+             return  note
+          return
+    }  
+)
 }
 
 
@@ -164,9 +178,9 @@ handleFilter(tag:string=''){
   this.applyFilters()
 }
 
-clearFilters(){
-  this.selectedTag.set('');
-  this.applyFilters()
+applyFont(){
+  document.body.style.setProperty('--font-family', this.selectedFont)
+  localStorage.setItem('font-type',this.selectedFont);
 }
 
 }

@@ -75,7 +75,7 @@ svg{
         border-radius: 5px;
         text-decoration: none;
         &:hover{
-            background-color: rgb(67, 65, 65);
+            background-color: var(--nav-hover-bg);
         }
       }
        p{
