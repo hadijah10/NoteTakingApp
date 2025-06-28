@@ -25,7 +25,13 @@
   </section>
   
   <h2>Notes</h2>
-  <section class="notes">
+  @if(newFilteredNotes.length<=0){
+    <section>
+        <p>Note List Empty</p>
+    </section>
+  }
+  @else{
+     <section class="notes">
     @for(note of newFilteredNotes;track $index){
       <div class="card" [style.background-color]="note.background">
           <p class="title">{{note.title}}</p>
@@ -57,6 +63,7 @@
       </div>
     }
   </section>
+  }
 </section>
 @if(affirmDelete() == true){
     <app-deletemodal [id] ="id()" (showModal)="showDeleteModal($event)" (deleted)="notifyDelete($event)"></app-deletemodal>
